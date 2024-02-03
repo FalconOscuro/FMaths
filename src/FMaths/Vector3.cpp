@@ -3,32 +3,37 @@
 #include <math.h>
 #include <cassert>
 
+#include "FMaths/Vector2.h"
 #include "FMaths/Vector4.h"
 
 Vector3::Vector3():
-    X(0), Y(0), Z(0)
+    x(0), y(0), z(0)
 {}
 
 Vector3::Vector3(float x, float y, float z):
-    X(x), Y(y), Z(z)
+    x(x), y(y), z(z)
+{}
+
+Vector3::Vector3(const Vector2 & v, float z):
+    x(v.x), y(v.y), z(z)
 {}
 
 Vector3::Vector3(const Vector3& v):
-    X(v.X), Y(v.Y), Z(v.Z)
+    x(v.x), y(v.y), z(v.z)
 {}
 
 Vector3::Vector3(const Vector4& v):
-    X(v.X), Y(v.Y), Z(v.Z)
+    x(v.x), y(v.y), z(v.z)
 {}
 
 float Vector3::Length() const
 {
-    return sqrtf(X*X + Y*Y + Z*Z);
+    return sqrtf(x*x + y*y + z*z);
 }
 
 float Vector3::LengthSquared() const
 {
-    return X*X + Y*Y + Z*Z;
+    return x*x + y*y + z*z;
 }
 
 Vector3& Vector3::Normalize()
@@ -60,72 +65,83 @@ bool Vector3::IsNormalized() const
 
 float Vector3::Dot(const Vector3& v) const
 {
-    return (X * v.X) + (Y * v.Y) + (Z * v.Z);
+    return (x * v.x) + (y * v.y) + (z * v.z);
 }
 
 Vector3 Vector3::Cross(const Vector3 & v) const
 {
     return Vector3(
-        (Y * v.Z) - (Z * v.Y),
-        (Z * v.X) - (X * v.Z),
-        (X * v.Y) - (Y * v.X)
+        (y * v.z) - (z * v.y),
+        (z * v.x) - (x * v.z),
+        (x * v.y) - (y * v.x)
     );
 }
 
 Vector3 Vector3::operator+(const Vector3& v) const
 {
-    return Vector3(X + v.X, Y + v.Y, Z + v.Z);
+    return Vector3(x + v.x, y + v.y, z + v.z);
 }
 
 Vector3 Vector3::operator-(const Vector3& v) const
 {
-    return Vector3(X - v.X, Y - v.Y, Z - v.Z);
+    return Vector3(x - v.x, y - v.y, z - v.z);
 }
 
 Vector3& Vector3::operator+=(const Vector3& v)
 {
-    X += v.X;
-    Y += v.Y;
-    Z += v.Z;
+    x += v.x;
+    y += v.y;
+    z += v.z;
 
     return *this;
 }
 
 Vector3& Vector3::operator-=(const Vector3& v)
 {
-    X -= v.X;
-    Y -= v.Y;
-    Z -= v.Z;
+    x -= v.x;
+    y -= v.y;
+    z -= v.z;
 
     return *this;
 }
 
 Vector3 Vector3::operator*(float s) const
 {
-    return Vector3(X * s, Y * s, Z * s);
+    return Vector3(x * s, y * s, z * s);
 }
 
 Vector3 Vector3::operator/(float s) const
 {
-    return Vector3(X / s, Y / s, Z / s);
+    return Vector3(x / s, y / s, z / s);
 }
 
 Vector3 & Vector3::operator*=(float s)
 {
-    X *= s;
-    Y *= s;
-    Z *= s;
+    x *= s;
+    y *= s;
+    z *= s;
 
     return *this;
 }
 
 Vector3 & Vector3::operator/=(float s)
 {
-    X /= s;
-    Y /= s;
-    Z /= s;
+    x /= s;
+    y /= s;
+    z /= s;
 
     return *this;
+}
+
+bool Vector3::operator==(const Vector3& v) const
+{
+    // account for precision?
+    return (x == v.x) && (y == v.y) && (z == v.z);
+}
+
+bool Vector3::operator!=(const Vector3 & v) const
+{
+    return (x != v.x) || (y != v.y) || (z != v.z);
 }
 
 float& Vector3::operator[](size_t i)
@@ -136,12 +152,12 @@ float& Vector3::operator[](size_t i)
     {
     default:
     case 0:
-        return X;
+        return x;
     
     case 1:
-        return Y;
+        return y;
     
     case 2:
-        return Z;
+        return z;
     }
 }

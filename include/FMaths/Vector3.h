@@ -14,6 +14,7 @@
 
 #include <cstddef>
 
+struct Vector2;
 struct Vector4;
 
 /**
@@ -32,11 +33,12 @@ struct Vector3
      */
     Vector3(float x, float y, float z);
 
+    Vector3(const Vector2& v, float z = 0);
     Vector3(const Vector3& v);
     Vector3(const Vector4& v);
 
     // Varaiables
-    float X, Y, Z;
+    float x, y, z;
 
     // Functions
 
@@ -91,6 +93,10 @@ struct Vector3
 
     Vector3& operator*=(float s);
     Vector3& operator/=(float s);
+
+    // ## Binary
+    bool operator==(const Vector3& v) const;
+    bool operator!=(const Vector3& v) const;
 
     // # Accessor
     float& operator[](size_t i);

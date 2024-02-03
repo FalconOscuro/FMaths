@@ -14,6 +14,7 @@
 
 #include <cstddef>
 
+struct Vector2;
 struct Vector3;
 
 struct Vector4
@@ -21,11 +22,12 @@ struct Vector4
     // Constructors
     Vector4();
     Vector4(float x, float y, float z, float w = 1);
-    Vector4(const Vector4& v);
+    Vector4(const Vector2& v, float z = 0, float w = 1);
     Vector4(const Vector3& v, float w = 1);
+    Vector4(const Vector4& v);
 
     // Member Variables
-    float X, Y, Z, W;
+    float x, y, z, w;
 
     // Functions
     float Length() const;
@@ -54,6 +56,10 @@ struct Vector4
 
     Vector4& operator*=(float s);
     Vector4& operator/=(float s);
+
+    // ## Boolean
+    bool operator==(const Vector4& v) const;
+    bool operator!=(const Vector4& v) const;
 
     // # Accessor
     float& operator[](size_t i);

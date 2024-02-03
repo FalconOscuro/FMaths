@@ -3,32 +3,37 @@
 #include <cmath>
 #include <cassert>
 
+#include "FMaths/Vector2.h"
 #include "FMaths/Vector3.h"
 
 Vector4::Vector4():
-    X(0), Y(0), Z(0), W(1)
+    x(0), y(0), z(0), w(1)
 {}
 
 Vector4::Vector4(float x, float y, float z, float w):
-    X(x), Y(y), Z(z), W(w)
+    x(x), y(y), z(z), w(w)
 {}
 
-Vector4::Vector4(const Vector4& v):
-    X(v.X), Y(v.Y), Z(v.Z), W(v.W)
+Vector4::Vector4(const Vector2 & v, float z, float w):
+    x(v.x), y(v.y), z(z), w(w)
 {}
 
 Vector4::Vector4(const Vector3 & v, float w):
-    X(v.X), Y(v.Y), Z(v.Z), W(w)
+    x(v.x), y(v.y), z(v.z), w(w)
+{}
+
+Vector4::Vector4(const Vector4& v):
+    x(v.x), y(v.y), z(v.z), w(v.w)
 {}
 
 float Vector4::Length() const
 {
-    return sqrtf((X * X) + (Y * Y) + (Z * Z) + (W * W));
+    return sqrtf((x * x) + (y * y) + (z * z) + (w * w));
 }
 
 float Vector4::LengthSquared() const
 {
-    return (X * X) + (Y * Y) + (Z * Z) + (W * W);
+    return (x * x) + (y * y) + (z * z) + (w * w);
 }
 
 bool Vector4::IsNormalized() const
@@ -54,76 +59,86 @@ Vector4 Vector4::Normalized() const
 
 float Vector4::Dot(const Vector4& v) const
 {
-    return (X * v.X) + (Y * v.Y) + (Z * v.Z) + (W * v.W);
+    return (x * v.x) + (y * v.y) + (z * v.z) + (w * v.w);
 }
 
 Vector4 Vector4::Cross(const Vector4 & v) const
 {
     return Vector4(
-        (Y * v.Z) - (Z * v.Y),
-        (Z * v.X) - (X * v.Z),
-        (X * v.Y) - (Y * v.X)
+        (y * v.z) - (z * v.y),
+        (z * v.x) - (x * v.z),
+        (x * v.y) - (y * v.x)
     );
 }
 
 Vector4 Vector4::operator+(const Vector4& v) const
 {
-    return Vector4(X + v.X, Y + v.Y, Z + v.Z, W + v.W);
+    return Vector4(x + v.x, y + v.y, z + v.z, w + v.w);
 }
 
 Vector4 Vector4::operator-(const Vector4& v) const
 {
-    return Vector4(X - v.X, Y - v.Y, Z - v.Z, W - v.W);
+    return Vector4(x - v.x, y - v.y, z - v.z, w - v.w);
 }
 
 Vector4& Vector4::operator+=(const Vector4& v)
 {
-    X += v.X;
-    Y += v.Y;
-    Z += v.Z;
-    W += v.W;
+    x += v.x;
+    y += v.y;
+    z += v.z;
+    w += v.w;
 
     return *this;
 }
 
 Vector4& Vector4::operator-=(const Vector4& v)
 {
-    X -= v.X;
-    Y -= v.Y;
-    Z -= v.Z;
-    W -= v.W;
+    x -= v.x;
+    y -= v.y;
+    z -= v.z;
+    w -= v.w;
 
     return *this;
 }
 
 Vector4 Vector4::operator*(float s) const
 {
-    return Vector4(X * s, Y * s, Z * s, W * s);
+    return Vector4(x * s, y * s, z * s, w * s);
 }
 
 Vector4 Vector4::operator/(float s) const
 {
-    return Vector4(X / s, Y / s, Z / s, W / s);
+    return Vector4(x / s, y / s, z / s, w / s);
 }
 
 Vector4& Vector4::operator*=(float s)
 {
-    X *= s;
-    Y *= s;
-    Z *= s;
-    W *= s;
+    x *= s;
+    y *= s;
+    z *= s;
+    w *= s;
 
     return *this;
 }
 
 Vector4 & Vector4::operator/=(float s)
 {
-    X /= s;
-    Y /= s;
-    Z /= s;
-    W /= s;
+    x /= s;
+    y /= s;
+    z /= s;
+    w /= s;
 
     return *this;
+}
+
+bool Vector4::operator==(const Vector4& v) const
+{
+    return (x == v.x) && (y == v.y) && (z == v.z) && (w == v.w);
+}
+
+bool Vector4::operator!=(const Vector4& v) const
+{
+    return (x != v.x) || (y != v.y) || (z != v.z) || (w != v.w);
 }
 
 float & Vector4::operator[](size_t i)
@@ -134,15 +149,15 @@ float & Vector4::operator[](size_t i)
     {
     default:
     case 0:
-        return X;
+        return x;
     
     case 1:
-        return Y;
+        return y;
 
     case 2:
-        return Z;
+        return z;
 
     case 3:
-        return W;
+        return w;
     }
 }
