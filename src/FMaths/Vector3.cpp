@@ -1,13 +1,24 @@
 #include "FMaths/Vector3.h"
 
 #include <math.h>
+#include <cassert>
+
+#include "FMaths/Vector4.h"
 
 Vector3::Vector3():
-    X(0.f), Y(0.f), Z(0.f)
+    X(0), Y(0), Z(0)
 {}
 
-Vector3::Vector3(const float & x, const float & y, const float & z):
+Vector3::Vector3(float x, float y, float z):
     X(x), Y(y), Z(z)
+{}
+
+Vector3::Vector3(const Vector3& v):
+    X(v.X), Y(v.Y), Z(v.Z)
+{}
+
+Vector3::Vector3(const Vector4& v):
+    X(v.X), Y(v.Y), Z(v.Z)
 {}
 
 float Vector3::Length() const
@@ -42,7 +53,23 @@ Vector3 Vector3::Normalized() const
 
 bool Vector3::IsNormalized() const
 {
-    return fabsf(LengthSquared() - 1) < __FLT_EPSILON__;
+    // Accounting for floating point innaccuracy
+    // FLT_EPSILON is most accurate near 1.0
+    return fabsf(LengthSquared() - 1) <= __FLT_EPSILON__;
+}
+
+float Vector3::Dot(const Vector3& v) const
+{
+    return (X * v.X) + (Y * v.Y) + (Z * v.Z);
+}
+
+Vector3 Vector3::Cross(const Vector3 & v) const
+{
+    return Vector3(
+        (Y * v.Z) - (Z * v.Y),
+        (Z * v.X) - (X * v.Z),
+        (X * v.Y) - (Y * v.X)
+    );
 }
 
 Vector3 Vector3::operator+(const Vector3& v) const
@@ -73,17 +100,17 @@ Vector3& Vector3::operator-=(const Vector3& v)
     return *this;
 }
 
-Vector3 Vector3::operator*(const float& s) const
+Vector3 Vector3::operator*(float s) const
 {
     return Vector3(X * s, Y * s, Z * s);
 }
 
-Vector3 Vector3::operator/(const float& s) const
+Vector3 Vector3::operator/(float s) const
 {
     return Vector3(X / s, Y / s, Z / s);
 }
 
-Vector3 & Vector3::operator*=(const float & s)
+Vector3 & Vector3::operator*=(float s)
 {
     X *= s;
     Y *= s;
@@ -92,11 +119,29 @@ Vector3 & Vector3::operator*=(const float & s)
     return *this;
 }
 
-Vector3 & Vector3::operator/=(const float & s)
+Vector3 & Vector3::operator/=(float s)
 {
     X /= s;
     Y /= s;
     Z /= s;
 
     return *this;
+}
+
+float& Vector3::operator[](size_t i)
+{
+    assert(i < 3);
+
+    switch (i)
+    {
+    default:
+    case 0:
+        return X;
+    
+    case 1:
+        return Y;
+    
+    case 2:
+        return Z;
+    }
 }

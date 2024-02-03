@@ -12,13 +12,15 @@
 #ifndef VECTOR3_H
 #define VECTOR3_H
 
+#include <cstddef>
+
+struct Vector4;
+
 /**
  * @brief 3D Vector of floats X, Y, Z
  */
-class Vector3
+struct Vector3
 {
-public:
-
     // Constructors
     /**
      * @brief Construct a new Vector3 object (0, 0, 0)
@@ -28,7 +30,10 @@ public:
     /**
      * @brief Construct a new Vector3 object given X, Y Z
      */
-    Vector3(const float& x, const float& y, const float& z);
+    Vector3(float x, float y, float z);
+
+    Vector3(const Vector3& v);
+    Vector3(const Vector4& v);
 
     // Varaiables
     float X, Y, Z;
@@ -61,18 +66,34 @@ public:
      */
     bool IsNormalized() const;
 
+    /**
+     * @brief Vector dot product
+     */
+    float Dot(const Vector3& v) const;
+
+    /**
+     * @brief Vector cross product
+     */
+    Vector3 Cross(const Vector3& v) const;
+
     // Operators
+    // # Arithmetic
+    // ## Vector
     Vector3 operator+(const Vector3& v) const;
     Vector3 operator-(const Vector3& v) const;
 
     Vector3& operator+=(const Vector3& v);
     Vector3& operator-=(const Vector3& v);
 
-    Vector3 operator*(const float& s) const;
-    Vector3 operator/(const float& s) const;
+    // ## Scalar
+    Vector3 operator*(float s) const;
+    Vector3 operator/(float s) const;
 
-    Vector3& operator*=(const float& s);
-    Vector3& operator/=(const float& s);
+    Vector3& operator*=(float s);
+    Vector3& operator/=(float s);
+
+    // # Accessor
+    float& operator[](size_t i);
 };
 
 #endif
