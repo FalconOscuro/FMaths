@@ -172,7 +172,7 @@ float& Vector3::operator[](size_t i)
     }
 }
 
-const float & Vector3::operator[](size_t i) const
+const float& Vector3::operator[](size_t i) const
 {
     assert(i < 3);
 

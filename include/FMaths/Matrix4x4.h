@@ -14,6 +14,7 @@
 
 #include <cstddef>
 
+#include "Vector3.h"
 #include "Vector4.h"
 
 struct Matrix4x4
@@ -25,6 +26,21 @@ public:
 
     Vector4& operator[](size_t i);
     const Vector4& operator[](size_t i) const;
+
+    Matrix4x4 operator*(const Matrix4x4& m) const;
+    Matrix4x4& operator*=(const Matrix4x4& m);
+
+    Vector4 operator*(const Vector4& v) const;
+
+    Matrix4x4& operator=(const Matrix4x4& m);
+
+    bool operator==(const Matrix4x4& m) const;
+    bool operator!=(const Matrix4x4& m) const;
+
+    static Matrix4x4 Identity();
+    static Matrix4x4 Translate(const Vector3& v);
+    static Matrix4x4 Scale(const Vector3& v);
+    static Matrix4x4 QuatRotate(const Vector4& q);
 
 private:
     // Encapsulated array of vectors
