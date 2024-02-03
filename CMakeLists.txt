@@ -17,6 +17,7 @@ set(SRC_DIR ${CMAKE_CURRENT_SOURCE_DIR}/src)
 add_library(${PROJECT_NAME} STATIC)
 
 target_sources(${PROJECT_NAME} PUBLIC
+    ${SRC_DIR}/FMaths/Vector3.cpp
 )
 
 set_target_properties(${PROJECT_NAME} PROPERTIES
