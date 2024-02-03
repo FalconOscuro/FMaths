@@ -144,6 +144,16 @@ bool Vector3::operator!=(const Vector3 & v) const
     return (x != v.x) || (y != v.y) || (z != v.z);
 }
 
+Vector3& Vector3::operator=(const Vector3& v)
+{
+    assert(this != &v);
+
+    x = v.x;
+    y = v.y;
+    z = v.z;
+    return *this;
+}
+
 float& Vector3::operator[](size_t i)
 {
     assert(i < 3);
@@ -157,6 +167,24 @@ float& Vector3::operator[](size_t i)
     case 1:
         return y;
     
+    case 2:
+        return z;
+    }
+}
+
+const float & Vector3::operator[](size_t i) const
+{
+    assert(i < 3);
+
+    switch (i)
+    {
+    default:
+    case 0:
+        return x;
+    
+    case 1:
+        return y;
+
     case 2:
         return z;
     }

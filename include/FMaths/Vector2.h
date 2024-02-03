@@ -21,6 +21,7 @@ struct Vector2
 {
     Vector2();
     Vector2(float x, float y);
+    Vector2(const Vector2& v);
     Vector2(const Vector3& v);
     Vector2(const Vector4& v);
 
@@ -50,7 +51,10 @@ struct Vector2
     bool operator==(const Vector2& v) const;
     bool operator!=(const Vector2& v) const;
 
+    Vector2& operator=(const Vector2& v);
+
     float& operator[](size_t i);
+    const float& operator[](size_t i) const;
 };
 
 

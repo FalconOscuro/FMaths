@@ -20,6 +20,7 @@ target_sources(${PROJECT_NAME} PUBLIC
     ${SRC_DIR}/FMaths/Vector2.cpp
     ${SRC_DIR}/FMaths/Vector3.cpp
     ${SRC_DIR}/FMaths/Vector4.cpp
+    ${SRC_DIR}/FMaths/Matrix4x4.cpp
 )
 
 set_target_properties(${PROJECT_NAME} PROPERTIES

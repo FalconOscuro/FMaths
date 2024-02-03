@@ -61,8 +61,11 @@ struct Vector4
     bool operator==(const Vector4& v) const;
     bool operator!=(const Vector4& v) const;
 
+    Vector4& operator=(const Vector4& v);
+
     // # Accessor
     float& operator[](size_t i);
+    const float& operator[](size_t i) const;
 };
 
 #endif

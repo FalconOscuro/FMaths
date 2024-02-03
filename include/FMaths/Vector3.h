@@ -98,8 +98,11 @@ struct Vector3
     bool operator==(const Vector3& v) const;
     bool operator!=(const Vector3& v) const;
 
+    Vector3& operator=(const Vector3& v);
+
     // # Accessor
     float& operator[](size_t i);
+    const float& operator[](size_t i) const;
 };
 
 #endif
