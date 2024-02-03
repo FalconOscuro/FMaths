@@ -1,0 +1,94 @@
+{
+    "version": 3,
+    "cmakeMinimumRequired": {
+        "major": 3,
+        "minor": 22,
+        "patch": 0
+    },
+    "configurePresets": [
+        {
+            "name": "base",
+            "displayName": "Base",
+            "description": "Base configuration.",
+            "hidden": true,
+            "binaryDir": "${sourceDir}/build/${presetName}",
+            "cacheVariables": {
+                "CMAKE_CXX_FLAGS_INIT": "-Wall -Wextra -Wpedantic",
+                "CMAKE_EXPORT_COMPILE_COMMANDS": "ON"
+            }
+        },
+        {
+            "inherits": "base",
+            "name": "debug",
+            "displayName": "Debug",
+            "description": "Configuration with debug flags enabled.",
+            "cacheVariables": {
+                "CMAKE_BUILD_TYPE": "Debug"
+            }
+        },
+        {
+            "inherits": "base",
+            "name": "release",
+            "displayName": "Release",
+            "description": "Release configuration preset.",
+            "cacheVariables": {
+                "CMAKE_BUILD_TYPE": "Release"
+            }
+        },
+        {
+            "inherits": "base",
+            "name": "relWithDebInfo",
+            "displayName": "Release with Debug Information",
+            "description": "Release config with debug information.",
+            "cacheVariables": {
+                "CMAKE_BUILD_TYPE": "RelWithDebInfo",
+                "CMAKE_EXPORT_COMPILE_COMMANDS": "ON"
+            }
+        },
+        {
+            "inherits": "base",
+            "name": "minSizeRel",
+            "displayName": "Minimum Size Release",
+            "description": "Minium size release configuration preset.",
+            "cacheVariables": {
+                "CMAKE_BUILD_TYPE": "MinSizeRel"
+            }
+        }
+    ],
+    "buildPresets": [
+        {
+            "name": "debug",
+            "configurePreset": "debug"
+        },
+        {
+            "name": "release",
+            "configurePreset": "release"
+        },
+        {
+            "name": "relWithDebInfo",
+            "configurePreset": "relWithDebInfo"
+        },
+        {
+            "name": "minSizeRel",
+            "configurePreset": "minSizeRel"
+        }
+    ],
+    "testPresets": [
+        {
+            "name": "debug",
+            "configurePreset": "debug"
+        },
+        {
+            "name": "release",
+            "configurePreset": "release"
+        },
+        {
+            "name": "relWithDebInfo",
+            "configurePreset": "relWithDebInfo"
+        },
+        {
+            "name": "minSizeRel",
+            "configurePreset": "minSizeRel"
+        }
+    ]
+}
