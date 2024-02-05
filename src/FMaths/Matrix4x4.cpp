@@ -13,7 +13,7 @@ Matrix4x4::Matrix4x4(float s)
 }
 
 Matrix4x4::Matrix4x4(const Vector4& col0, const Vector4& col1, const Vector4& col2, const Vector4& col3):
-    m_Columns({col0, col1, col2, col3})
+    m_Columns{col0, col1, col2, col3}
 {}
 
 Matrix4x4::Matrix4x4(const Matrix4x4& m)
