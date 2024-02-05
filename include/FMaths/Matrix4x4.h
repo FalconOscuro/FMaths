@@ -37,6 +37,11 @@ public:
     Matrix4x4(float s);
 
     /**
+     * @brief Construct from columns
+     */
+    Matrix4x4(const Vector4& col0, const Vector4& col1, const Vector4& col2, const Vector4& col3);
+
+    /**
      * @brief Copy Constructor
      */
     Matrix4x4(const Matrix4x4& m);
@@ -109,6 +114,14 @@ public:
      * @todo Quaternion implemention
      */
     static Matrix4x4 QuatRotate(const Vector4& q);
+
+    /**
+     * @brief Create a matrix for an orthographic
+     * 
+     * @param vMin Co-ordinate for bottom left of near-plane
+     * @param vMax Co-ordinate for top right of far-plane
+     */
+    static Matrix4x4 Orthographic(const Vector3& vMin, const Vector3& vMax);
 
 private:
     

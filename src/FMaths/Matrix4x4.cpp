@@ -12,6 +12,10 @@ Matrix4x4::Matrix4x4(float s)
         m_Columns[i][i] = s;
 }
 
+Matrix4x4::Matrix4x4(const Vector4& col0, const Vector4& col1, const Vector4& col2, const Vector4& col3):
+    m_Columns({col0, col1, col2, col3})
+{}
+
 Matrix4x4::Matrix4x4(const Matrix4x4& m)
 {
     // Could be un-rolled
@@ -120,31 +124,63 @@ Matrix4x4 Matrix4x4::Scale(const Vector3& v)
 
 Matrix4x4 Matrix4x4::QuatRotate(const Vector4 & q)
 {
-    Matrix4x4 rot = Matrix4x4();
-
     // equation used: https://automaticaddison.com/wp-content/uploads/2020/09/quaternion-to-rotation-matrix.jpg
     // source: https://automaticaddison.com/how-to-convert-a-quaternion-to-a-rotation-matrix/
-    rot[0] = Vector4(
+    Vector4 col0(
         (2 * ((q.x * q.x) + (q.w * q.w))) - 1,
          2 * ((q.x * q.y) + (q.w * q.z)),
          2 * ((q.x * q.z) - (q.w * q.y)),
          0
     );
 
-    rot[1] = Vector4(
+    Vector4 col1(
          2 * ((q.y * q.x) - (q.w * q.z)),
         (2 * ((q.y * q.y) + (q.w * q.w))) - 1,
          2 * ((q.y * q.z) + (q.w * q.x)),
          0
     );
 
-    rot[2] = Vector4(
+    Vector4 col2(
          2 * ((q.z * q.x) + (q.w * q.y)),
          2 * ((q.z * q.y) - (q.w * q.x)),
         (2 * ((q.z * q.z) + (q.w * q.w))) - 1,
         0
     );
 
-    rot[3][3] = 1;
-    return rot;
+    Vector4 col3(0, 0, 0, 1);
+
+    return Matrix4x4(col0, col1, col2, col3);
+}
+
+Matrix4x4 Matrix4x4::Orthographic(const Vector3 & vMin, const Vector3 & vMax)
+{
+    // equation source: http://www.songho.ca/opengl/gl_projectionmatrix.html#ortho
+    Vector3 sum = vMin + vMax;
+    Vector3 diff = vMax - vMin;
+
+    Vector4 col0(
+        2 / diff.x,
+        0, 0, 0
+    );
+
+    Vector4 col1(
+        0,
+        2 / diff.y,
+        0, 0
+    );
+
+    Vector4 col2(
+        0, 0,
+        -2 / diff.z,
+        0
+    );
+
+    Vector4 col3(
+        -(sum.x / diff.x),
+        -(sum.y / diff.y),
+        -(sum.z / diff.z),
+        1
+    );
+
+    return Matrix4x4(col0, col1, col2, col3);
 }
