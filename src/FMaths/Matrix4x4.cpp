@@ -1,5 +1,6 @@
 #include "FMaths/Matrix4x4.h"
 
+#include <cmath>
 #include <cassert>
 
 Matrix4x4::Matrix4x4()
@@ -180,6 +181,37 @@ Matrix4x4 Matrix4x4::Orthographic(const Vector3 & vMin, const Vector3 & vMax)
         -(sum.y / diff.y),
         -(sum.z / diff.z),
         1
+    );
+
+    return Matrix4x4(col0, col1, col2, col3);
+}
+
+Matrix4x4 Matrix4x4::Perspective(float fov, float width, float height, float near, float far)
+{
+    assert(near != 0.f);
+    float tanFov = tanf(fov * 0.5f);
+
+    Vector4 col0(
+        1 / tanFov,
+        0, 0, 0
+    );
+
+    Vector4 col1(
+        0,
+        width / (height * tanFov),
+        0, 0
+    );
+
+    Vector4 col2(
+        0, 0,
+        (far + near) / (near - far),
+        -1
+    );
+
+    Vector4 col3(
+        0, 0,
+        (2 * far * near) / (near - far),
+        0
     );
 
     return Matrix4x4(col0, col1, col2, col3);

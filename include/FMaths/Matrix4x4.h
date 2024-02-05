@@ -116,12 +116,23 @@ public:
     static Matrix4x4 QuatRotate(const Vector4& q);
 
     /**
-     * @brief Create a matrix for an orthographic
+     * @brief Create an orthographic projection matrix
      * 
      * @param vMin Co-ordinate for bottom left of near-plane
      * @param vMax Co-ordinate for top right of far-plane
      */
     static Matrix4x4 Orthographic(const Vector3& vMin, const Vector3& vMax);
+
+    /**
+     * @brief Create a perspective projection matrix
+     * 
+     * @param fov Horizontal fov 
+     * @param width Display width
+     * @param height Display height
+     * @param near Distance to near plane
+     * @param far Distance to far plane
+     */
+    static Matrix4x4 Perspective(float fov, float width, float height, float near, float far);
 
 private:
     
