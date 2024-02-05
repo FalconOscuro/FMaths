@@ -24,6 +24,62 @@ Matrix4x4::Matrix4x4(const Matrix4x4& m)
         m_Columns[col] = m[col];
 }
 
+Matrix4x4 Matrix4x4::Inverse() const
+{
+    // Find determinants for submatrices
+    float s0 = (m_Columns[0][0] * m_Columns[1][1]) - (m_Columns[0][1] * m_Columns[1][1]);
+    float s1 = (m_Columns[0][0] * m_Columns[1][2]) - (m_Columns[0][2] * m_Columns[1][0]);
+    float s2 = (m_Columns[0][0] * m_Columns[1][3]) - (m_Columns[0][3] * m_Columns[1][0]);
+    float s3 = (m_Columns[0][1] * m_Columns[1][2]) - (m_Columns[0][2] * m_Columns[1][1]);
+    float s4 = (m_Columns[0][1] * m_Columns[1][3]) - (m_Columns[0][3] * m_Columns[1][1]);
+    float s5 = (m_Columns[0][2] * m_Columns[1][3]) - (m_Columns[0][3] * m_Columns[1][2]);
+
+    float c0 = (m_Columns[2][0] * m_Columns[3][1]) - (m_Columns[2][1] * m_Columns[3][0]);
+    float c1 = (m_Columns[2][0] * m_Columns[3][2]) - (m_Columns[2][2] * m_Columns[3][0]);
+    float c2 = (m_Columns[2][0] * m_Columns[3][3]) - (m_Columns[2][3] * m_Columns[3][0]);
+    float c3 = (m_Columns[2][1] * m_Columns[3][2]) - (m_Columns[2][2] * m_Columns[3][1]);
+    float c4 = (m_Columns[2][1] * m_Columns[3][3]) - (m_Columns[2][3] * m_Columns[3][1]);
+    float c5 = (m_Columns[2][2] * m_Columns[3][3]) - (m_Columns[2][3] * m_Columns[3][2]);
+
+    // calculate determinant of 4x4 from submatrices
+    float determinant = (s0 * c5) - (s1 * c4) + (s2 * c3) + (s3 * c2) - (s4 * c1) + (s5 * c0);
+    if (determinant == 0.f) // avoid divide by 0
+        return Identity();
+    
+    // Get adjudate matrix
+    Vector4 adj0 = Vector4(
+         (m_Columns[1][1] * c5) - (m_Columns[1][2] * c4) + (m_Columns[1][3] * c3),
+        -(m_Columns[1][0] * c5) + (m_Columns[1][2] * c2) - (m_Columns[1][3] * c1),
+         (m_Columns[1][0] * c4) - (m_Columns[1][1] * c2) + (m_Columns[1][3] * c0),
+        -(m_Columns[1][0] * c3) + (m_Columns[1][1] * c1) - (m_Columns[1][2] * c0)
+    );
+
+    Vector4 adj1 = Vector4(
+        -(m_Columns[0][1] * c5) + (m_Columns[0][2] * c4) - (m_Columns[0][3] * c3),
+         (m_Columns[0][0] * c5) - (m_Columns[0][2] * c2) + (m_Columns[0][3] * c1),
+        -(m_Columns[0][0] * c4) + (m_Columns[0][1] * c2) - (m_Columns[0][3] * c0),
+         (m_Columns[0][0] * c3) - (m_Columns[0][1] * c1) + (m_Columns[0][2] * c0)
+    );
+
+    Vector4 adj2 = Vector4(
+         (m_Columns[3][1] * s5) - (m_Columns[3][2] * s4) + (m_Columns[3][3] * s3),
+        -(m_Columns[3][0] * s5) + (m_Columns[3][2] * s2) - (m_Columns[3][3] * s1),
+         (m_Columns[3][0] * s4) - (m_Columns[3][1] * s2) + (m_Columns[3][3] * s0),
+        -(m_Columns[3][0] * s3) + (m_Columns[3][1] * s1) - (m_Columns[3][2] * s0)
+    );
+
+    Vector4 adj3 = Vector4(
+        -(m_Columns[2][1] * s5) + (m_Columns[2][2] * s4) - (m_Columns[2][3] * s3),
+         (m_Columns[2][0] * s5) - (m_Columns[2][2] * s2) + (m_Columns[2][3] * s1),
+        -(m_Columns[2][0] * s4) + (m_Columns[2][1] * s2) - (m_Columns[2][3] * s0),
+         (m_Columns[2][0] * s3) - (m_Columns[2][1] * s1) + (m_Columns[2][2] * s0)
+    );
+
+    // Multiply adj by 1/det for inverse
+    float invDet = 1.f / determinant;
+    return Matrix4x4(adj0, adj1, adj2, adj3) * invDet;
+}
+
 Vector4 & Matrix4x4::operator[](size_t i)
 {
     assert(i < 4);
@@ -64,6 +120,21 @@ Vector4 Matrix4x4::operator*(const Vector4 & v) const
             res[row] += v[row] * operator[](col)[row];
     
     return res;
+}
+
+Matrix4x4 Matrix4x4::operator*(float s) const
+{
+    return Matrix4x4(m_Columns[0] * s, m_Columns[1] * s, m_Columns[2] * s, m_Columns[3] * s);
+}
+
+Matrix4x4 & Matrix4x4::operator*=(float s)
+{
+    m_Columns[0] *= s;
+    m_Columns[1] *= s;
+    m_Columns[2] *= s;
+    m_Columns[3] *= s;
+
+    return *this;
 }
 
 Matrix4x4 & Matrix4x4::operator=(const Matrix4x4 & m)

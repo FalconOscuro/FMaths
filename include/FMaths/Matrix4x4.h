@@ -47,6 +47,13 @@ public:
     Matrix4x4(const Matrix4x4& m);
 
     /**
+     * @brief Get inverse matrix using Laplace Expansion Theorem
+     * 
+     * @return Matrix4x4 Inverse matrix or Identity Matrix if inverse does not exist
+     */
+    Matrix4x4 Inverse() const;
+
+    /**
      * @brief Accessor for matrix data in column major ordering
      */
     Vector4& operator[](size_t i);
@@ -70,6 +77,17 @@ public:
      * @brief Matrix vector multiplication
      */
     Vector4 operator*(const Vector4& v) const;
+
+    /**
+     * @brief Matrix scalar multiplication
+     * @return Matrix4x4 
+     */
+    Matrix4x4 operator*(float f) const;
+    
+    /**
+     * @brief Matrix scalar multiplication assignment
+     */
+    Matrix4x4& operator*=(float f);
 
     /**
      * @brief Assignment operator
@@ -135,7 +153,7 @@ public:
     static Matrix4x4 Perspective(float fov, float width, float height, float near, float far);
 
 private:
-    
+
     /**
      * @brief Encapsulated matrix
      * 
