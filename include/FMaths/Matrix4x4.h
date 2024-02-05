@@ -82,12 +82,12 @@ public:
      * @brief Matrix scalar multiplication
      * @return Matrix4x4 
      */
-    Matrix4x4 operator*(float f) const;
+    Matrix4x4 operator*(float s) const;
     
     /**
      * @brief Matrix scalar multiplication assignment
      */
-    Matrix4x4& operator*=(float f);
+    Matrix4x4& operator*=(float s);
 
     /**
      * @brief Assignment operator
