@@ -2,7 +2,7 @@ cmake_minimum_required(VERSION 3.22)
 
 project(
     Falcon-Maths
-    VERSION 0.1.2
+    VERSION 0.2.0
     LANGUAGES CXX
 )
 
@@ -12,15 +12,16 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 # Get required packages
 message(STATUS "Retrieving packages")
 
-set(SRC_DIR ${CMAKE_CURRENT_SOURCE_DIR}/src)
+set(SRC_DIR ${CMAKE_CURRENT_SOURCE_DIR}/src/FMaths)
 
 add_library(${PROJECT_NAME} STATIC)
 
 target_sources(${PROJECT_NAME} PUBLIC
-    ${SRC_DIR}/FMaths/Vector2.cpp
-    ${SRC_DIR}/FMaths/Vector3.cpp
-    ${SRC_DIR}/FMaths/Vector4.cpp
-    ${SRC_DIR}/FMaths/Matrix4x4.cpp
+    ${SRC_DIR}/Vector2.cpp
+    ${SRC_DIR}/Vector3.cpp
+    ${SRC_DIR}/Vector4.cpp
+    ${SRC_DIR}/Matrix4x4.cpp
+    ${SRC_DIR}/Quaternion.cpp
 )
 
 set_target_properties(${PROJECT_NAME} PROPERTIES
