@@ -27,7 +27,7 @@ Matrix4x4::Matrix4x4(const Matrix4x4& m)
 Matrix4x4 Matrix4x4::Inverse() const
 {
     // Find determinants for submatrices
-    float s0 = (m_Columns[0][0] * m_Columns[1][1]) - (m_Columns[0][1] * m_Columns[1][1]);
+    float s0 = (m_Columns[0][0] * m_Columns[1][1]) - (m_Columns[0][1] * m_Columns[1][0]);
     float s1 = (m_Columns[0][0] * m_Columns[1][2]) - (m_Columns[0][2] * m_Columns[1][0]);
     float s2 = (m_Columns[0][0] * m_Columns[1][3]) - (m_Columns[0][3] * m_Columns[1][0]);
     float s3 = (m_Columns[0][1] * m_Columns[1][2]) - (m_Columns[0][2] * m_Columns[1][1]);
