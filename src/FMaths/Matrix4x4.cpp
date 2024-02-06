@@ -46,32 +46,32 @@ Matrix4x4 Matrix4x4::Inverse() const
     if (determinant == 0.f) // avoid divide by 0
         return Identity();
     
-    // Get adjudate matrix
+    // Get adjudate matrix = transpose of cofactor
     Vector4 adj0 = Vector4(
          (m_Columns[1][1] * c5) - (m_Columns[1][2] * c4) + (m_Columns[1][3] * c3),
-        -(m_Columns[1][0] * c5) + (m_Columns[1][2] * c2) - (m_Columns[1][3] * c1),
-         (m_Columns[1][0] * c4) - (m_Columns[1][1] * c2) + (m_Columns[1][3] * c0),
-        -(m_Columns[1][0] * c3) + (m_Columns[1][1] * c1) - (m_Columns[1][2] * c0)
+        -(m_Columns[0][1] * c5) + (m_Columns[0][2] * c4) - (m_Columns[0][3] * c3),
+         (m_Columns[3][1] * s5) - (m_Columns[3][2] * s4) + (m_Columns[3][3] * s3),
+        -(m_Columns[2][1] * s5) + (m_Columns[2][2] * s4) - (m_Columns[2][3] * s3)
     );
 
     Vector4 adj1 = Vector4(
-        -(m_Columns[0][1] * c5) + (m_Columns[0][2] * c4) - (m_Columns[0][3] * c3),
+        -(m_Columns[1][0] * c5) + (m_Columns[1][2] * c2) - (m_Columns[1][3] * c1),
          (m_Columns[0][0] * c5) - (m_Columns[0][2] * c2) + (m_Columns[0][3] * c1),
-        -(m_Columns[0][0] * c4) + (m_Columns[0][1] * c2) - (m_Columns[0][3] * c0),
-         (m_Columns[0][0] * c3) - (m_Columns[0][1] * c1) + (m_Columns[0][2] * c0)
+        -(m_Columns[3][0] * s5) + (m_Columns[3][2] * s2) - (m_Columns[3][3] * s1),
+         (m_Columns[2][0] * s5) - (m_Columns[2][2] * s2) + (m_Columns[2][3] * s1)
     );
 
     Vector4 adj2 = Vector4(
-         (m_Columns[3][1] * s5) - (m_Columns[3][2] * s4) + (m_Columns[3][3] * s3),
-        -(m_Columns[3][0] * s5) + (m_Columns[3][2] * s2) - (m_Columns[3][3] * s1),
+         (m_Columns[1][0] * c4) - (m_Columns[1][1] * c2) + (m_Columns[1][3] * c0),
+        -(m_Columns[0][0] * c4) + (m_Columns[0][1] * c2) - (m_Columns[0][3] * c0),
          (m_Columns[3][0] * s4) - (m_Columns[3][1] * s2) + (m_Columns[3][3] * s0),
-        -(m_Columns[3][0] * s3) + (m_Columns[3][1] * s1) - (m_Columns[3][2] * s0)
+        -(m_Columns[2][0] * s4) + (m_Columns[2][1] * s2) - (m_Columns[2][3] * s0)
     );
 
     Vector4 adj3 = Vector4(
-        -(m_Columns[2][1] * s5) + (m_Columns[2][2] * s4) - (m_Columns[2][3] * s3),
-         (m_Columns[2][0] * s5) - (m_Columns[2][2] * s2) + (m_Columns[2][3] * s1),
-        -(m_Columns[2][0] * s4) + (m_Columns[2][1] * s2) - (m_Columns[2][3] * s0),
+        -(m_Columns[1][0] * c3) + (m_Columns[1][1] * c1) - (m_Columns[1][2] * c0),
+         (m_Columns[0][0] * c3) - (m_Columns[0][1] * c1) + (m_Columns[0][2] * c0),
+        -(m_Columns[3][0] * s3) + (m_Columns[3][1] * s1) - (m_Columns[3][2] * s0),
          (m_Columns[2][0] * s3) - (m_Columns[2][1] * s1) + (m_Columns[2][2] * s0)
     );
 
@@ -159,13 +159,7 @@ bool Matrix4x4::operator==(const Matrix4x4& m) const
 
 bool Matrix4x4::operator!=(const Matrix4x4 & m) const
 {
-    bool nEqual = false;
-
-    // Could be un-rolled
-    for (size_t col = 0; col < 4; col++)
-        nEqual |= operator[](col) != m[col];
-    
-    return nEqual;
+    return (m_Columns[0] != m[0]) || (m_Columns[1] != m[1]) || (m_Columns[2] != m[2]) || (m_Columns[3] != m[3]);
 }
 
 Matrix4x4 Matrix4x4::Identity()
